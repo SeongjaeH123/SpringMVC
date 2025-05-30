@@ -1,0 +1,10 @@
+package kr.smhrd.entity;
+
+public class Member {
+	/// 엔티티는 테이블의 컬럼 정보를 가지고 있는 클래스로 VO와 유사
+	
+	String email;
+	String pw;
+	String tel;
+	String address;
+}

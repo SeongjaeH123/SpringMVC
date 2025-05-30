@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+  
+	<!-- web.xml, root-conext.xml, servlet-context.xml 같은 설정 파일들은 서버를 실행할 때 파일을 읽는다. 
+			그래서 이 설정 파일은 건드렸다면 반드시 서버를 재시작해야 한다.-->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DB에 관련된 설정을 할 수 있는 파일을 저장하는 곳 -->
+
+	<!-- API(HikariCP) -->
+	<!-- bean : 객체를 생성하는 태그 -->
+	<!-- HikariConfig 클래스를 이용해서 hikariConfig라는 객체를 생성 -->
+	<!-- 생성자의 매개변수로 driverClassName, jdbcUrl, username, password를 집어넣는다는 느낌 -->
+	<!-- 컨트롤러에 자바문법으로도 적을 수 있지만 그렇게 하면 컨트롤러마다 하나하나 설정해줘야 하므로 여기서 하는 것 -->
+   	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+   		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+   	   	<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/com"/>
+   	 	<property name="username" value="com"/>
+   	   	<property name="password" value="com01"/>
+  	</bean>
+  	
+   	<!-- HikariDataSource(Connection POOL을 만드는 역할을 한다) -->
+   	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+   	   	<constructor-arg ref="hikariConfig" />
+   	</bean>
+   	
+   	
+   	
+   	<!-- Mapper interface를 메모리에 올리는 법 (scan) -->
+   	<mybatis-spring:scan base-package="kr.smhrd.mapper"/>
+   	
+   	<!-- MemberMapper라는 인터페이스를 생성했는데 실제로 사용할 수 있는 클래스를 생성해야 함 -->
+   	<!-- 이걸 만들어주는 게 SqlSessionFactoryBean 이다. 즉, SqlSessionFactoryBean은 SQL을 실행하는 클래스 -->
+   	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+   		<property name="dataSource" ref="dataSource"/>
+   	</bean>
+</beans>

@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Fri May 30 17:21:55 KST 2025
+org.eclipse.jst.jee.server\:/binary\:C\:\\eGovFrame-4.0.0\\maven\\repository\\org\\springframework\\spring-web\\5.0.1.RELEASE\\spring-web-5.0.1.RELEASE.jar=WEB-INF/lib/spring-web-5.0.1.RELEASE.jar
+org.eclipse.jst.jee.server\:/binary\:C\:\\eGovFrame-4.0.0\\maven\\repository\\org\\springframework\\spring-web\\5.3.6\\spring-web-5.3.6.jar=WEB-INF/lib/spring-web-5.3.6.jar

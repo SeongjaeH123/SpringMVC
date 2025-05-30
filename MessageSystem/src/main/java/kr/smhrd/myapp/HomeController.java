@@ -1,0 +1,42 @@
+package kr.smhrd.myapp;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+// Spring은 Controller를 Servlet이 아닌 POJO 클래스 파일로 작성한다.
+// @Controller 어노테이션은 해당 POJO 클래스가 Controller역할임을 알리는 것
+// DispatcherServlet이 @Controller 어노테이션이 있는 클래스에서 알맞는 요청 Mapping이 있는 메서드를 실행
+@Controller
+public class HomeController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+	// Handler가 받은 값이 /home으로 가는거에 GET방식일 때 여기로 매핑해준다는 뜻
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		logger.info("Welcome home! The client locale is {}.", locale);
+		
+		Date date = new Date();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		
+		String formattedDate = dateFormat.format(date);
+		
+		model.addAttribute("serverTime", formattedDate );
+		
+		return "home";
+		// Controller가 view name을 반환하고 view Resolver가 앞뒤로 문자열을 붙여서 페이지 경로를 완성한다.
+		
+		// 그런데 실제로 실행 해보면 myapp/ 이후 경로는 표시되지 않는다.
+		// 이렇게 처음 요청하는 경로 그대로 url은 유지되고 서버에서 페이지를 이동시키는 forward 방식을 사용
+		// 만약 매핑을 루트(/)가 아니라 /home으로 했다면 주소창에 home까지 적어줘야 정상적으로 이동된다.
+	}
+	
+}

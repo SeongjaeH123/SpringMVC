@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- web.xml, root-conext.xml, servlet-context.xml 같은 설정 파일들은 서버를 실행할 때 파일을 읽는다. 
+			그래서 이 설정 파일은 건드렸다면 반드시 서버를 재시작해야 한다.-->
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DB에 관련된 설정을 할 수 있는 파일을 저장하는 곳 -->
+
+	<!-- API(HikariCP) -->
+	<!-- bean : 객체를 생성하는 태그 -->
+   	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+   		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+   	   	<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/com"/>
+   	 	<property name="username" value="com"/>
+   	   	<property name="password" value="com01"/>
+  	</bean>
+   	<!-- HikariDataSource(Connection POOL을 만드는 역할을 한다) -->
+   	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+   	   	<constructor-arg ref="hikariConfig" />
+   	</bean>
+</beans>

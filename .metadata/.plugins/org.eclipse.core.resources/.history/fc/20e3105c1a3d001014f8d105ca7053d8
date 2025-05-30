@@ -1,0 +1,21 @@
+package kr.smhrd.mapper;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+
+import kr.smhrd.entity.Member;
+
+//해당 인터페이스는 mybatis에게 데이터베이스 접근을 시키기 위한 업무 정의로
+//Spring Container에 이 인터페이스를 올리려면 Servletㅇㅡㅗ mapper파일임을 알려야 한다.
+@Mapper
+public interface MemberMapper {
+	
+	//인터페이스이므로 추상 메서드 틀만 작성
+	//회원가입을 위한 추상 메서드
+	
+	//비교적 간단한 sql문은 xml파일을 따로 생성하지않고 어노테이션을 이용해서 할 수 있다.
+	@Insert("INSERT INTO FULLSTACKMEMBER VALUES(#{EMAIL], $[PW], #{TEL, #{ADDRESS}")
+	public void memberJoin(Member member);
+	
+	
+}

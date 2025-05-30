@@ -1,0 +1,10 @@
+package kr.smhrd.myapp;
+
+import org.springframework.stereotype.Controller;
+
+// 사용자(Member)와 관련된 요청을 처리할 수 있는 Controller
+// Spring Conatainer에 Controller객체를 생성할 수 있도록 어노테이션을 사용해서 알려줘야 한다.
+@Controller
+public class MemberController {
+
+}
