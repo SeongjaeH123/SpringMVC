@@ -1,14 +1,19 @@
+<%@page import="kr.smhrd.entity.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+ 	String isLogined = "";
 	String title = "<h1 id='title'>";
-	if(request.getAttribute("user_email")!=null)
-		title += (String)request.getAttribute("user_email");
-	else 
+	Member loginUser = (Member)session.getAttribute("user");
+	if(loginUser!=null) {
+		title += loginUser.getEmail().split("@")[0]+"님 안녕하세요";
+		isLogined = "isLogin";
+	} else {
 		title += "로그인 한 세션아이디를 출력해주세요";
-	title += "</h1>";
-		
+		isLogined = "";
+	}
+	title += "</h1>"; 		
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -26,7 +31,7 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body class="<%=isLogined%>">
 
 		<!-- Wrapper -->
 			<div id="wrapper">
@@ -36,8 +41,12 @@
 						<a href="index.html" class="logo"><strong>Forty</strong> <span>by HTML5 UP</span></a>
 						<nav>
 							<!-- Q6. 로그인을 한 상태에서는 로그인탭 대신 로그아웃탭과 개인정보수정탭을 출력 -->
+							<%if(loginUser==null) {%>
 							<a href="#menu">로그인</a>
-							
+							<%} else {%>
+							<a href="goUpdateMember">개인정보 수정</a>
+							<a href="logout">로그아웃</a>
+							<%} %>
 							<!-- Q7. 개인정보수정 기능 만들기 -->
 							<!-- Q8. 로그아웃 기능 만들기 -->
 							<!-- Q9. 관리자 계정(admin)일 때는 회원정보관리 탭 만들기 -->
@@ -200,7 +209,7 @@
 										<span class="icon alt fa-envelope"></span>
 										<h3>Email</h3>
 										<!-- Q5. 로그인 한 사용자의 이메일을 출력 -->
-										<a href="#">로그인 한 사람의 이메일을 출력</a>
+										<a href="#">${user.email}</a>
 									</div>
 								</section>
 								<section>
@@ -208,7 +217,7 @@
 										<span class="icon alt fa-phone"></span>
 										<h3>Phone</h3>
 										<!-- Q5. 로그인 한 사용자의 전화번호를 출력 -->
-										<span>로그인 한 사람의 전화번호를 출력</span>
+										<span>${user.tel}</span>
 									</div>
 								</section>
 								<section>
@@ -216,7 +225,7 @@
 										<span class="icon alt fa-home"></span>
 										<h3>Address</h3>
 										<!-- Q5. 로그인 한 사용자의 집주소를 출력 -->
-										<span>로그인 한 사람의 집주소를 출력</span>
+										<span>${user.address}</span>
 									</div>
 								</section>
 							</section>					
@@ -249,6 +258,19 @@
 			<script src="resources/assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="resources/assets/js/main.js"></script>
+			
+			<script>
+				const btnLogin = document.querySelector("a[href='#menu']");
+				const body = document.getElementsByTagName("body")[0];
+				const contact = document.getElementById("contact");
+			
+				if(body.classList.contains("isLogin")) {
+					contact.classList.remove("hidden")
+				} else {
+					contact.classList.add("hidden")
+				}
+			</script>
+			
 	</body>
 </html>
 

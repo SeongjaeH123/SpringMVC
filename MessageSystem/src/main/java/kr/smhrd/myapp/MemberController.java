@@ -1,5 +1,7 @@
 package kr.smhrd.myapp;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,13 +55,39 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String Login(Member member, Model model) {
+	public String Login(Member member, HttpSession session) {
 		System.out.println("login기능 | "+member.toString());
 		Member loginMember = mapper.memberLogin(member);
 		if(loginMember!=null) {
 			System.out.println("login한 Member | "+loginMember);
-			model.addAttribute("user_email", member.getEmail());
+			session.setAttribute("user", loginMember);		
 		} 
 		return "Main";
 	}
+	
+	@RequestMapping(value="/goUpdateMember")
+	public String updateMember() {
+		return "UpdateMember";
+	}
+	
+	@RequestMapping(value="/logout")
+	public String Logout(HttpSession session) {
+		System.out.println("로그아웃 기능");
+		session.removeAttribute("user");
+		return "Main";
+	}
+	
+	@RequestMapping(value="/updateUser", method=RequestMethod.POST)
+	public String updateUser(Member member, HttpSession session) {
+		int result = mapper.memberUpdate(member);
+		if(result>0) {
+			session.removeAttribute("user");
+			System.out.println("수정된 member | "+member);
+			session.setAttribute("user", member);
+		} else {
+			System.out.println("수정 실패");
+		}	
+		return "Main";
+	}
+
 }

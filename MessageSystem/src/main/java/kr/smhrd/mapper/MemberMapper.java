@@ -3,6 +3,7 @@ package kr.smhrd.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import kr.smhrd.entity.Member;
 
@@ -18,7 +19,9 @@ public interface MemberMapper {
 	@Insert("INSERT INTO FULLSTACKMEMBER VALUES(#{email}, #{pw}, #{tel}, #{address})")
 	public int memberJoin(Member member);
 	
-	
 	@Select("SELECT * FROM FULLSTACKMEMBER WHERE EMAIL=#{email} AND PW=#{pw}")
 	public Member memberLogin(Member member);
+	
+	@Update("UPDATE FULLSTACKMEMBER SET PW=#{pw}, TEL=#{tel}, ADDRESS=#{address} WHERE EMAIL=#{email}")
+	public int memberUpdate(Member member);
 }
